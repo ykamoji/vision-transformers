@@ -20,11 +20,12 @@ class DistillationLoss(torch.nn.Module):
 
         if self.distillation_type == 'none':
             return base_loss
-
+        
         with torch.no_grad():
             teacher_outputs = self.teacher_model(inputs)
 
         distillation_loss = 0
+     
         if self.distillation_type == 'soft':
             T = self.tau
             distillation_loss = F.kl_div(F.log_softmax(outputs_kd / T, dim=1),
